@@ -27,6 +27,14 @@
     {
       "question": "Say something funny",
       "answer": "Your love life"
+    },
+    {
+      "question": "tell me more",
+      "answer": "I don't want to"
+    },
+    {
+      "question": "ok",
+      "answer": "ok?"
     }
   ]
 }

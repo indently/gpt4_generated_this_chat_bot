@@ -3,7 +3,7 @@ from difflib import get_close_matches
 
 
 # Load the knowledge base from a JSON file
-def load_knowledge_base(file_path):
+def load_knowledge_base(file_path: str):
     """
     Read the knowledge base from a JSON file.
 
@@ -11,12 +11,12 @@ def load_knowledge_base(file_path):
     :return: A dictionary with the knowledge base data.
     """
     with open(file_path, 'r') as file:
-        data = json.load(file)
+        data: dict = json.load(file)
     return data
 
 
 # Save the updated knowledge base to the JSON file
-def save_knowledge_base(file_path, data):
+def save_knowledge_base(file_path: str, data: dict):
     """
     Write the updated knowledge base to a JSON file.
 
@@ -28,7 +28,7 @@ def save_knowledge_base(file_path, data):
 
 
 # Find the closest matching question
-def find_best_match(user_question, questions):
+def find_best_match(user_question: str, questions: list[str]) -> str | None:
     """
     Find the closest matching question in the knowledge base.
 
@@ -36,11 +36,11 @@ def find_best_match(user_question, questions):
     :param questions: A list of questions from the knowledge base.
     :return: The closest matching question or None if no match is found.
     """
-    matches = get_close_matches(user_question, questions, n=1, cutoff=0.6)
+    matches: list = get_close_matches(user_question, questions, n=1, cutoff=0.6)
     return matches[0] if matches else None
 
 
-def get_answer_for_question(question, knowledge_base):
+def get_answer_for_question(question: str, knowledge_base: dict) -> str | None:
     """
     Retrieve the answer for a given question from the knowledge base.
 
@@ -67,24 +67,24 @@ def chatbot():
     5. If the user provides a new answer, add it to the knowledge base and save the updated knowledge base to the JSON file.
     6. Exit the chatbot when the user types 'quit'.
     """
-    knowledge_base = load_knowledge_base('knowledge_base.json')
+    knowledge_base: dict = load_knowledge_base('knowledge_base.json')
 
     while True:
-        user_input = input("You: ")
+        user_input: str = input("You: ")
 
         if user_input.lower() == 'quit':
             break
 
         # Finds the best match, otherwise returns None
-        best_match = find_best_match(user_input, [q["question"] for q in knowledge_base["questions"]])
+        best_match: str | None = find_best_match(user_input, [q["question"] for q in knowledge_base["questions"]])
 
         if best_match:
             # If there is a best match, return the answer from the knowledge base
-            answer = get_answer_for_question(best_match, knowledge_base)
+            answer: str = get_answer_for_question(best_match, knowledge_base)
             print(f"Bot: {answer}")
         else:
             print("Bot: I don't know the answer. Can you teach me?")
-            new_answer = input("Type the answer or 'skip' to skip: ")
+            new_answer: str = input("Type the answer or 'skip' to skip: ")
 
             if new_answer.lower() != 'skip':
                 knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
